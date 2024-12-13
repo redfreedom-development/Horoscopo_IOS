@@ -8,7 +8,7 @@
 import UIKit
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-   
+    
     let horoscopeList: [Horoscope] = Horoscope.getAll()
     
     
@@ -18,10 +18,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-     
+        
         tableView.dataSource = self
     }
-
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return horoscopeList.count    }
@@ -31,9 +31,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! HoroscopeViewCell
         
         let horoscope=horoscopeList[indexPath.row]
-       
+        
         cell.render(horoscope)
-       
+        
         
         return cell
         
@@ -44,6 +44,20 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         
     }
-
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segueDetail"{
+            
+            let detailViewController = segue.destination as! DetailViewController
+            
+            let indexPath = tableView.indexPathForSelectedRow!
+            let horoscopo = horoscopeList[indexPath.row]
+            detailViewController.horoscope = horoscopo
+            
+            
+            
+            
+            
+        }
+        
+    }
 }
-
