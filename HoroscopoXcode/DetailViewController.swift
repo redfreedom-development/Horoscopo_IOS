@@ -10,9 +10,13 @@ import UIKit
 class DetailViewController: UIViewController {
     
     var horoscope:Horoscope!
-    @IBOutlet weak var imgHoroscopo: UIImageView!
+    var horoscopeService = HoroscopeService()
     
+    @IBOutlet weak var imgHoroscopo: UIImageView!
     @IBOutlet weak var lbDate: UILabel!
+    
+    @IBOutlet weak var txtHoroscopeDescription: UITextView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -20,6 +24,23 @@ class DetailViewController: UIViewController {
         imgHoroscopo.image=horoscope.icon
         lbDate.text=horoscope.dates
         // Do any additional setup after loading the view.
+        
+        
+        // Llamar al servicio para obtener el horóscopo de Aries
+        horoscopeService.fetchHoroscope(for: "\(horoscope.name)", on: "TODAY") { [self] result in
+                   switch result {
+                   case .success(let horoscopeData):
+                       print("Fecha: \(horoscopeData.date)")
+                       print("Horóscopo: \(horoscopeData.horoscopeData)")
+                       DispatchQueue.main.async {
+                           self.txtHoroscopeDescription.text=horoscopeData.horoscopeData
+                       }
+                       
+                       // Aquí puedes actualizar la UI con los datos del horóscopo
+                   case .failure(let error):
+                       print("Error al obtener el horóscopo: \(error)")
+                   }
+               }
     }
     
 
