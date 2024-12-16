@@ -16,12 +16,14 @@ struct HoroscopeResponse: Codable {
 
 // Estructura para los datos del horóscopo
 struct HoroscopeData: Codable {
-    let date: String         // Fecha del horóscopo
+    let date: String?         // Fecha del horóscopo
+    let week: String?         // Fecha del horóscopo
+    let month: String?         // Fecha del horóscopo
     let horoscopeData: String // Contenido del horóscopo (el mensaje)
 
     // Se utiliza para mapear la clave 'horoscope_data' al atributo 'horoscopeData' en Swift
     enum CodingKeys: String, CodingKey {
-        case date
+        case date, week, month
         case horoscopeData = "horoscope_data"
     }
 }
