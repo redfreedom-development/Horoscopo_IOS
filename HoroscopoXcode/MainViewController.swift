@@ -7,19 +7,27 @@
 
 import UIKit
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate {
     
-    let horoscopeList: [Horoscope] = Horoscope.getAll()
+    var horoscopeList: [Horoscope] = Horoscope.getAll()
+  
     
     
+    @IBOutlet weak var imgFavorito: UIImageView!
     @IBOutlet weak var tableView: UITableView!
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        
         tableView.dataSource = self
+        
+        //implementacion barra de busqueda
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchBar.delegate = self
+        self.navigationItem.searchController = searchController
     }
     
     
@@ -37,13 +45,38 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         return cell
         
-        
-        
-        
-        
-        
-        
+        }
+    
+    // MARK: SearchBarDelegate
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if (searchText.isEmpty) {
+            horoscopeList = Horoscope.getAll()
+        } else {
+            // BUSCA SOLO POR EL NOMBRE DEL HOROSCOPO
+            /*horoscopeList = Horoscope.getAll().filter({ horoscope in
+                horoscope.name.range(of: searchText, options: .caseInsensitive) != nil
+            })*/
+            
+            //BUSCA TANTO EN EL NOMBRE COMO EN LAS FECHAS
+           horoscopeList = Horoscope.getAll().filter { horoscope in
+                let searchTextLowercased = searchText.lowercased()
+                let nameMatches = horoscope.name.lowercased().range(of: searchTextLowercased) != nil
+                let dateMatches = horoscope.dates.lowercased().range(of: searchTextLowercased) != nil
+                return nameMatches || dateMatches
+            }
+            
+            
+            
+        }
+        tableView.reloadData()
     }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        horoscopeList = Horoscope.getAll()
+        tableView.reloadData()
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueDetail"{
             
@@ -59,5 +92,11 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             
         }
         
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Recargar las celdas para reflejar cambios en la sesión
+        tableView.reloadData()
     }
 }

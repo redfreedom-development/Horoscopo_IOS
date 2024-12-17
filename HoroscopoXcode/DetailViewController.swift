@@ -11,11 +11,19 @@ class DetailViewController: UIViewController {
     
     var horoscope:Horoscope!
     var horoscopeService = HoroscopeService()
+    var sesion:SessionManager!
+  
+    
     
     @IBOutlet weak var imgHoroscopo: UIImageView!
     @IBOutlet weak var lbDate: UILabel!
     
     @IBOutlet weak var txtHoroscopeDescription: UITextView!
+    
+    
+    @IBOutlet weak var btFavorite: UIBarButtonItem!
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,9 +33,46 @@ class DetailViewController: UIViewController {
         lbDate.text=horoscope.dates
         // Do any additional setup after loading the view.
         cargarApi(tipo: "daily")
+        sesion = SessionManager()
+        
+        cambio_corazon_favorito()
+            
+            
+            
+        
         
         
       
+    }
+    
+    func cambio_corazon_favorito(){
+        
+        if(sesion.isFavorite(horoscopeId: horoscope.id)){
+            btFavorite.image = UIImage(systemName: "heart.fill")
+            btFavorite.tintColor = UIColor.red // Cambiar el color
+        }
+        else{
+            
+            
+            btFavorite.image = UIImage(systemName: "heart")
+            btFavorite.tintColor = UIColor.red // Cambiar el color
+        }
+    }
+    
+    
+    @IBAction func pulsar_favorito(_ sender: Any) {
+        
+        if(sesion.isFavorite(horoscopeId: horoscope.id)){
+            sesion.setFavorite(horoscopeId: "")
+         
+            
+        }
+        else{
+            
+            sesion.setFavorite(horoscopeId: horoscope.id)
+           
+        }
+        cambio_corazon_favorito()
     }
     
     @IBAction func btDay(_ sender: Any) {

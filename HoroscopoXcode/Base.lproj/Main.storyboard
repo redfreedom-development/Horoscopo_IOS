@@ -3,6 +3,7 @@
     <device id="retina6_3" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -32,7 +33,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="horoscope name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fP5-Wu-rQw">
-                                                    <rect key="frame" x="129" y="11" width="230" height="21"/>
+                                                    <rect key="frame" x="129" y="11" width="217" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
                                                     <nil key="textColor"/>
@@ -45,11 +46,17 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="heart.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="fTd-4R-S4y">
+                                                    <rect key="frame" x="354" y="5" width="31" height="34"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="tintColor" systemColor="systemRedColor"/>
+                                                </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="dateLb" destination="G0a-H8-vAJ" id="sx7-uF-g8w"/>
                                             <outlet property="iconImageView" destination="xwt-x6-hK6" id="0iR-ad-EKf"/>
+                                            <outlet property="imgFavorite" destination="fTd-4R-S4y" id="881-fV-tJo"/>
                                             <outlet property="nameLb" destination="fP5-Wu-rQw" id="Jt6-0H-H7y"/>
                                             <segue destination="EG9-qX-i8W" kind="show" identifier="segueDetail" id="rll-cd-15w"/>
                                         </connections>
@@ -73,7 +80,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1066.4122137404579" y="3.5211267605633805"/>
+            <point key="canvasLocation" x="1065.6716417910447" y="3.432494279176201"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="5kb-Ep-xLc">
@@ -146,8 +153,22 @@
                             <constraint firstItem="E0T-Ok-tVj" firstAttribute="top" secondItem="jLu-gJ-iDI" secondAttribute="top" id="Ue0-Yo-gzv"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Zez-3x-9eI"/>
+                    <navigationItem key="navigationItem" id="Zez-3x-9eI">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="QTD-Hi-4N1">
+                            <imageReference key="image" image="heart" catalog="system" renderingMode="hierarchical">
+                                <hierarchicalColors>
+                                    <color systemColor="labelColor"/>
+                                    <color systemColor="secondaryLabelColor"/>
+                                    <color systemColor="tertiaryLabelColor"/>
+                                </hierarchicalColors>
+                            </imageReference>
+                            <connections>
+                                <action selector="pulsar_favorito:" destination="EG9-qX-i8W" id="tix-H3-Zqf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="btFavorite" destination="QTD-Hi-4N1" id="aKh-Me-RPX"/>
                         <outlet property="imgHoroscopo" destination="CxG-mB-WTm" id="PwO-em-xby"/>
                         <outlet property="lbDate" destination="i8e-Sn-kbW" id="qlL-Z5-ICt"/>
                         <outlet property="txtHoroscopeDescription" destination="6B7-2E-Zgm" id="xXd-Eb-NGL"/>
@@ -177,11 +198,22 @@
         </scene>
     </scenes>
     <resources>
+        <image name="heart" catalog="system" width="128" height="107"/>
+        <image name="heart.fill" catalog="system" width="128" height="107"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="tertiaryLabelColor">
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.29803921570000003" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

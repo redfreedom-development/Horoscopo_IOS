@@ -13,7 +13,11 @@ class HoroscopeViewCell: UITableViewCell {
     @IBOutlet weak var dateLb: UILabel!
     @IBOutlet weak var nameLb: UILabel!
     
+    @IBOutlet weak var imgFavorite: UIImageView!
+    
+    var sesion:SessionManager!
 
+    
     
     
     override func awakeFromNib() {
@@ -30,9 +34,21 @@ class HoroscopeViewCell: UITableViewCell {
     
     func render(_ horoscope: Horoscope) {
         
+        sesion=SessionManager()
+        
         nameLb.text = horoscope.name
         dateLb.text = horoscope.dates
         iconImageView.image = horoscope.icon
+        
+        //para desocultar el corazon imagen de favorito
+        if(sesion.isFavorite(horoscopeId: horoscope.id)){
+            imgFavorite.isHidden=false
+           
+        }
+        else{
+            imgFavorite.isHidden=true
+           
+        }
        
        
         
